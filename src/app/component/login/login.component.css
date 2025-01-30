@@ -1,6 +1,6 @@
 .container {
     height: 100%;
-    background-image: url('/assets/images/imagem-fundo.svg');
+    background-image: url('/assets/images/268.jpg');
     background-size: cover; /* Ajusta a imagem para cobrir todo o fundo do card */
     background-position: center; /* Centraliza a imagem no card */
     background-repeat: no-repeat; /* Evita que a imagem se repita */
@@ -32,10 +32,6 @@ img {
     height: 8rem;
     width: 100%;
     margin: auto auto 1.5rem auto;
-}
-
-.input{
-    color: white;
 }
 
 input::placeholder {

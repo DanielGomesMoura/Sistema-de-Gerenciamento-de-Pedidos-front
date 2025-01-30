@@ -6,14 +6,14 @@
             <div class="2">
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>E-mail</mat-label>
-                    <input class="input" style="color: white;" [formControl]="email" required [(ngModel)]="cred.email" name="email" matInput
+                    <input style="color: white;" [formControl]="email" required [(ngModel)]="cred.email" name="email" matInput
                         placeholder="Digite aqui seu email">
                     <mat-icon matSuffix>person</mat-icon>
                 </mat-form-field>
 
                 <mat-form-field class="full-width" appearance="outline">
                     <mat-label>Senha</mat-label>
-                    <input class="input" [formControl]="senha" required [(ngModel)]="cred.senha" name="senha" type="password" matInput
+                    <input style="color: white;" [formControl]="senha" required [(ngModel)]="cred.senha" name="senha" type="password" matInput
                         [type]="hide ? 'password' : 'text'" placeholder="Ex. 123">
                     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
                         [attr.aria-pressed]="hide" (keydown.enter)="$event.preventDefault()">
