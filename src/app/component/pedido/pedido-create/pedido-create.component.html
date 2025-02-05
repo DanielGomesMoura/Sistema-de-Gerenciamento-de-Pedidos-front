@@ -21,7 +21,7 @@
 
           <mat-form-field  class="fullWidth">
             <mat-label>Produto</mat-label>
-            <mat-select (selectionChange)="onProdutoChange($event)">
+            <mat-select (selectionChange)="onProdutoChange($event)" formControlName="produto">
               <mat-option *ngFor="let produto of produtos" [value]="produto.id">
                 {{ produto.descricao }}
               </mat-option>
@@ -45,6 +45,9 @@
               <input type="text" name="valor_unitario" formControlName="valor_unitario" readonly="true" matInput>
               <mat-icon matSuffix>attach_money</mat-icon>
             </mat-form-field>
+            <button (click)="delete(i)" color="warn" mat-icon-button>
+              <mat-icon class="delete">delete</mat-icon>
+            </button>
         </div>
       </div>
 

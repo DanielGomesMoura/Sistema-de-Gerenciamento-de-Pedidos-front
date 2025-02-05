@@ -5,6 +5,7 @@ import { MatTableDataSource as MatTableDataSource } from '@angular/material/tabl
 import { ToastrService } from 'ngx-toastr';
 import { Produto } from 'src/app/models/produto';
 import { ProdutoService } from 'src/app/services/produto.service';
+import { ConfirmDialogComponent } from '../../confirm-dialog/confirm-dialog-component';
 
 @Component({
   selector: 'app-produto-list',
@@ -66,5 +67,27 @@ export class ProdutoListComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  delete(produto: Produto): void{
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+    data: "Tem certeza que deseja remover esse Produto?",
+    });
+    dialogRef.afterClosed().subscribe( (resposta: boolean)=>{
+      if(resposta){
+        this.service.delete(produto.id).subscribe(() =>{
+          this.toast.success('Produto Deletado com sucesso','REMOVIDO')
+          this.findAll();
+        },ex => {
+          if(ex.error.errors){
+            ex.error.errors.forEach(element => {
+              this.toast.error(element.message);
+            });
+          }else{
+            this.toast.error(ex.error.message);
+          }
+        })
+      }
+    })
   }
 }

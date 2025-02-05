@@ -41,6 +41,7 @@ export class PedidoCreateComponent implements OnInit {
       cliente_fk:    new FormControl(null,Validators.required),
       valor_total:   new FormControl(null, Validators.required),
       data_registro: new FormControl(dataAtual, Validators.required),//new FormControl(null, Validators.required), // Inicialmente desabilitado
+      produto:       new FormControl(null, Validators.required),
       itensPedido:   new FormArray([])
     });
 
@@ -251,4 +252,16 @@ if (formValue.itensPedido && Array.isArray(formValue.itensPedido)) {
     const day = date.getDay();
     return day != 0 && day != 6;
 }
+
+delete(index:number): void{
+  // Remova o item com base no índice
+  this.itensPedido.removeAt(index);
+  (index);
+   
+   // Verifique se todos os itens foram removidos
+   if (this.itensPedido.length === 0) {
+       this.pedidoForm.get('valor_total').setValue(''); // Define valor_total como vazio
+       this.pedidoForm.get('produto').setValue(null);
+   }
+ }
 }

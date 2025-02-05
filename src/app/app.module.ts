@@ -57,6 +57,7 @@ import { ContaCreateComponent } from './component/conta/conta-create/conta-creat
 import { TipoRecebimentoListComponent } from './component/tipo-recebimento-list/tipo-recebimento-list.component';
 import { TipoRecebimentoCreateComponent } from './component/tipo-recebimento-create/tipo-recebimento-create.component';
 import { MovimentoCaixaListComponent } from './component/movimento-caixa/movimento-caixa-list/movimento-caixa-list.component';
+import { ConfirmDialogComponent } from './component/confirm-dialog/confirm-dialog-component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -79,7 +80,8 @@ registerLocaleData(localePt, 'pt-BR');
     ContaCreateComponent,
     TipoRecebimentoListComponent,
     TipoRecebimentoCreateComponent,
-    MovimentoCaixaListComponent
+    MovimentoCaixaListComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
