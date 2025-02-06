@@ -29,6 +29,7 @@ export class PedidoListComponent implements OnInit {
    // Supondo que a data de hoje seja obtida assim
  dataInicio = null;
  dataFinal  = null;
+ situacao = "TODOS";
  filterValue =  '';
 
   pedido: Pedido = {
@@ -71,7 +72,7 @@ export class PedidoListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadFilters();
-    this.findAll(this.dataInicio,this.dataFinal);
+    this.findAll(this.dataInicio,this.dataFinal, this.situacao);
   }
 
   loadFilters(): void {
@@ -82,6 +83,8 @@ export class PedidoListComponent implements OnInit {
     this.dataFinal = savedDataFinal ? this.parseDate(savedDataFinal) : new Date();
      // Recupera o filtro de nome do localStorage
     this.filterValue = localStorage.getItem('filtroNome') || '';
+
+    this.situacao = localStorage.getItem('filtroSituacao')
 
      // Aplica o filtro de nome, se houver
      if (this.filterValue) {
@@ -106,6 +109,7 @@ export class PedidoListComponent implements OnInit {
     localStorage.setItem('filtroDataFinal', formattedDataFinal);
   }
     localStorage.setItem('filtroNome', this.filterValue);
+    localStorage.setItem('filtroSituacao',this.situacao);
   }
 
   
@@ -119,11 +123,12 @@ export class PedidoListComponent implements OnInit {
   this.router.navigate(['/pagamentos', elementId]);
 }
 
-  findAll(dataInicio: Date, dataFinal: Date){
+  findAll(dataInicio: Date, dataFinal: Date, situacao: string){
     this.saveFilters();
      var datafiltroInicial = this.datePipe.transform(dataInicio, 'dd/MM/yyyy');
      var datafiltroFinal = this.datePipe.transform(dataFinal, 'dd/MM/yyyy');
-     this.service.findAll(datafiltroInicial,datafiltroFinal).subscribe(resposta => {
+     var situacaofiltro = situacao 
+     this.service.findAll(datafiltroInicial,datafiltroFinal,situacaofiltro).subscribe(resposta => {
     
    const formatarResposta = resposta.map((pedido: Pedido) =>{
       return{

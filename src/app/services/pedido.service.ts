@@ -15,10 +15,11 @@ export class PedidoService {
     return this.http.get<Pedido>(`${API_CONFIG.baseurl}/pedidos/${id}`);
   }
 
-  findAll(dataInicio: string, dataFinal: string): Observable<Pedido[]>{
+  findAll(dataInicio: string, dataFinal: string, situacao: string): Observable<Pedido[]>{
     const params = new HttpParams()
       .set('dataInicio', dataInicio)
-      .set('dataFinal', dataFinal);
+      .set('dataFinal', dataFinal)
+      .set('situacao', situacao)
     return this.http.get<Pedido[]>(`${API_CONFIG.baseurl}/pedidos`,{params});
   }
 
