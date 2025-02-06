@@ -9,12 +9,22 @@
             <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
           </mat-form-field>
+
+          <mat-form-field  class="fullWidth">
+            <mat-label>Forma de Pagamento</mat-label>
+            <mat-select (selectionChange)="onTipoChange($event)">
+                <mat-option value="PIX">PIX</mat-option>
+                <mat-option value="DEBITO">DÉBITO</mat-option>
+                <mat-option value="CREDITO">CRÉDITO</mat-option>
+                <mat-option value="DINHEIRO">DINHEIRO</mat-option>
+            </mat-select>
+        </mat-form-field>
           
         <mat-form-field  class="fullWidth">
-            <mat-label>Tipo de Pagamento</mat-label>
+            <mat-label>Banco</mat-label>
             <mat-select formControlName="tipo_recebimento_fk">
                 <mat-option *ngFor="let tipo_Recebimento of tipo_Recebimento" [value]="tipo_Recebimento.id">
-                    {{ tipo_Recebimento.tipo }}
+                    {{ tipo_Recebimento.descricao }}
                 </mat-option>
             </mat-select>
         </mat-form-field>

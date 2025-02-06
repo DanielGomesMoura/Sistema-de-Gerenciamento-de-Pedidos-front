@@ -5,10 +5,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Tipo_Recebimento } from 'src/app/models/tipo-recebimento';
+import { TipoRecebimentoSimplificado } from 'src/app/models/combo-recebimento';
 import { PagamentoService } from 'src/app/services/pagamento.service';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { DatePipe } from '@angular/common';
 import { parse } from 'date-fns';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-pagamento-create',
@@ -19,7 +21,7 @@ export class PagamentoCreateComponent implements OnInit {
 
   pagamentoForm: FormGroup;
   isEditMode: boolean = false;
-  tipo_Recebimento: Tipo_Recebimento[] = [];
+  tipo_Recebimento: TipoRecebimentoSimplificado[] = [];
   pedidoId: number;
   valorTotal: number|string;
   dataRegistro: Date;
@@ -54,14 +56,23 @@ export class PagamentoCreateComponent implements OnInit {
     }, error => {
       console.error('Erro ao obter detalhes do pedido', error);
     });
-    this.findRecebimento();
   }
 
-   findRecebimento():void{
-    this.recebimentoService.findAll().subscribe((data: Tipo_Recebimento[]) => {
-      this.tipo_Recebimento = data;
+  findRecebimento(tipo: string): void {
+    this.recebimentoService.comboRecebimento(tipo).pipe(
+        map((data: Tipo_Recebimento[]) => data.map(item => ({
+            id: item.id,
+            descricao: item.conta
+        })))
+    ).subscribe((mappedData: { id: number, descricao: string }[]) => {
+        this.tipo_Recebimento = mappedData;
     });
-  }
+}
+
+  onTipoChange(event: any): void {
+    const selectedTipo = event.value;
+    this.findRecebimento(selectedTipo);
+}
 
   formatarMoeda(obj: number | string){
     const formattedValorCusto = this.currencyPipe.transform(obj, 'BRL', '', '1.2-2');

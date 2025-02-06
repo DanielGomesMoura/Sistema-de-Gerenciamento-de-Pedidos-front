@@ -19,12 +19,16 @@ export class TipoRecebimentoService {
     return this.http.get<Tipo_Recebimento[]>(`${API_CONFIG.baseurl}/recebimentos`);
   }
 
-  create(pagamento: Tipo_Recebimento): Observable<Tipo_Recebimento>{
-    return this.http.post<Tipo_Recebimento>(`${API_CONFIG.baseurl}/recebimentos`,pagamento)
+  comboRecebimento(tipo: string): Observable<Tipo_Recebimento[]>{
+    return this.http.get<Tipo_Recebimento[]>(`${API_CONFIG.baseurl}/recebimentos/combo/${tipo}`);
   }
 
-  update(pagamento: Tipo_Recebimento): Observable<Tipo_Recebimento>{
-    return this.http.put<Tipo_Recebimento>(`${API_CONFIG.baseurl}/recebimentos/${pagamento.id}`,pagamento);
+  create(recebimento: Tipo_Recebimento): Observable<Tipo_Recebimento>{
+    return this.http.post<Tipo_Recebimento>(`${API_CONFIG.baseurl}/recebimentos`,recebimento)
+  }
+
+  update(recebimento: Tipo_Recebimento): Observable<Tipo_Recebimento>{
+    return this.http.put<Tipo_Recebimento>(`${API_CONFIG.baseurl}/recebimentos/${recebimento.id}`,recebimento);
   }
 
   delete(id: any): Observable<Tipo_Recebimento>{
