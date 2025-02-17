@@ -1,0 +1,36 @@
+.container{
+    width: 90%;
+    margin: 1rem auto auto auto;    
+    }
+    
+    table{
+        width: 100%;
+    }
+    
+    mat-form-field{
+    width: 100%;
+    margin-top: 1rem;
+}
+    
+    .create{
+        width: 11rem;
+    }
+    
+    h1{
+        width: 100%;
+        text-align: center;
+    }
+
+    .text-center {
+        text-align: center;
+        }
+        
+    .text-right {
+        padding-right: 2rem;
+        text-align: right;
+        }
+.button-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}

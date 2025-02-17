@@ -62,7 +62,6 @@ export class ClienteListComponent implements OnInit {
     dialogRef.afterClosed().subscribe( (resposta: boolean)=>{
       if(resposta){
         this.service.delete(cliente.id).subscribe(() =>{
-          this.toast.success('Cliente Deletado com sucesso','Delete');
           this.toast.success('Cliente Deletado com sucesso','REMOVIDO')
           this.findAll();
         },ex => {
