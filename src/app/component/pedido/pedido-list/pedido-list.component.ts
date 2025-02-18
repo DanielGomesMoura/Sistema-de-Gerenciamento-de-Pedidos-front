@@ -31,6 +31,7 @@ export class PedidoListComponent implements OnInit {
  dataFinal  = null;
  situacao = "TODOS";
  filterValue =  '';
+ relatorio = "relatorio_pedidos_abertos_por_clientes";
 
   pedido: Pedido = {
     id: '',
@@ -121,6 +122,17 @@ export class PedidoListComponent implements OnInit {
 
   redirectToPagamentos(elementId: number) {
   this.router.navigate(['/pagamentos', elementId]);
+}
+
+imprimirRelatorio(){
+  this.service.imprimeRelatorio(this.relatorio).subscribe(response => {
+    const url = window.URL.createObjectURL(response);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'relatorio.pdf';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  });
 }
 
   findAll(dataInicio: Date, dataFinal: Date, situacao: string){
