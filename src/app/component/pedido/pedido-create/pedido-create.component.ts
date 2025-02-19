@@ -41,7 +41,7 @@ export class PedidoCreateComponent implements OnInit {
       cliente_fk:    new FormControl(null,Validators.required),
       valor_total:   new FormControl(null, Validators.required),
       data_registro: new FormControl(dataAtual, Validators.required),//new FormControl(null, Validators.required), // Inicialmente desabilitado
-      produto:       new FormControl(null, Validators.required),
+      produto:       new FormControl(null),
       itensPedido:   new FormArray([])
     });
 
@@ -244,7 +244,6 @@ if (formValue.itensPedido && Array.isArray(formValue.itensPedido)) {
     }); 
   }
 
-  
   dateFilter(date) {
      if (!date) {
         return true; // Permite que todas as datas sejam válidas até que uma seja selecionada
