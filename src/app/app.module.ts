@@ -60,6 +60,7 @@ import { MovimentoCaixaListComponent } from './component/movimento-caixa/movimen
 import { ConfirmDialogComponent } from './component/confirm-dialog/confirm-dialog-component';
 import { InsumoListComponent } from './component/insumo/insumo-list/insumo-list.component';
 import { InsumoCreateComponent } from './component/insumo/insumo-create/insumo-create.component';
+import { CompraListComponent } from './component/compra/compra-list/compra-list.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -85,7 +86,8 @@ registerLocaleData(localePt, 'pt-BR');
     MovimentoCaixaListComponent,
     ConfirmDialogComponent,
     InsumoListComponent,
-    InsumoCreateComponent
+    InsumoCreateComponent,
+    CompraListComponent,
   ],
   imports: [
     BrowserModule,

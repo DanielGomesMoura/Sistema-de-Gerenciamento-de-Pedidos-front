@@ -1,0 +1,83 @@
+.container{
+    width: 90%;
+    margin: 1rem auto auto auto;    
+    }
+    
+    table{
+        width: 100%;
+    }
+
+    tr.mat-mdc-footer-row td {
+      font-weight: bold;
+    }
+
+    .text-center {
+        text-align: center;
+      }
+      
+      .text-right {
+        text-align: right;
+      }
+
+    .fullWidth{
+      width: 100%;
+  }
+
+  .filter-data{
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+  }
+    
+    .create{
+        width: 11rem;
+    }
+    
+    h1{
+        width: 100%;
+        text-align: center;
+    }
+    
+    mat-icon-button{
+     padding-right: 1rem;
+    }
+
+    .teste{
+      display: flex;
+    }
+
+    /*css para expandir tabela*/
+    
+        tr.example-detail-row {
+          height: 0;
+        }
+    
+        tr.example-element-row:not(.example-expanded-row):hover {
+          background: whitesmoke;
+          /* Cor de fundo ao passar o mouse */
+        }
+    
+        tr.example-element-row:not(.example-expanded-row):active {
+          background: #efefef;
+          /* Cor de fundo quando ativo */
+        }
+    
+        .example-element-row td {
+          border-bottom-width: 0;
+          /* Remove a borda inferior nas linhas */
+        }
+    
+        .example-element-detail {
+          overflow: hidden;
+          /* Garante que o conteúdo não transborde */
+          display: flex;
+          /* Exibe o conteúdo em um layout flexível */
+        }
+
+        /* Em telas menores, mude para grid */
+@media (max-width: 600px) { /* Ajuste o valor conforme necessário */
+  .filter-data {
+      display: grid;
+  }
+}

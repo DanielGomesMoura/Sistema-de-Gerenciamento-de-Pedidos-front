@@ -19,6 +19,7 @@ import { TipoRecebimentoCreateComponent } from './component/tipo-recebimento-cre
 import { MovimentoCaixaListComponent } from './component/movimento-caixa/movimento-caixa-list/movimento-caixa-list.component';
 import { InsumoListComponent } from './component/insumo/insumo-list/insumo-list.component';
 import { InsumoCreateComponent } from './component/insumo/insumo-create/insumo-create.component';
+import { CompraListComponent } from './component/compra/compra-list/compra-list.component';
 
 
 const routes: Routes = [
@@ -50,11 +51,13 @@ const routes: Routes = [
       {path: 'recebimentos/create',component:  TipoRecebimentoCreateComponent},
       {path: 'recebimentos/update/:id',component:  TipoRecebimentoCreateComponent},
 
-      {path: 'movimentos',       component:  MovimentoCaixaListComponent},
+      {path: 'movimentos',         component:  MovimentoCaixaListComponent},
 
       {path: 'insumos',                 component:  InsumoListComponent},
       {path: 'insumos/create',          component:  InsumoCreateComponent},
       {path: 'insumos/update/:id',      component:  InsumoCreateComponent},
+
+      {path: 'compras',             component:  CompraListComponent},
     ]
   } 
 ];
