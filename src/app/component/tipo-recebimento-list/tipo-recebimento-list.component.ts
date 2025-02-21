@@ -19,10 +19,11 @@ export class TipoRecebimentoListComponent implements OnInit {
     id: '',
     conta: '',
     tipo: '',
-    conta_fk: null
+    conta_fk: null,
+    categoria:'',
   }
 
-  displayedColumns: string[] = ['id', 'conta', 'tipo', 'acoes'];
+  displayedColumns: string[] = ['id', 'conta', 'tipo', 'categoria', 'acoes'];
   dataSource = new MatTableDataSource<Tipo_Recebimento>(this.ELEMENT_DATA);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;

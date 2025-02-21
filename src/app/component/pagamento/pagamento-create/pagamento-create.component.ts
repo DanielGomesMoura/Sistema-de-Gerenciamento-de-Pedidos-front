@@ -58,8 +58,8 @@ export class PagamentoCreateComponent implements OnInit {
     });
   }
 
-  findRecebimento(tipo: string): void {
-    this.recebimentoService.comboRecebimento(tipo).pipe(
+  findRecebimento(tipo: string, categoria: string): void {
+    this.recebimentoService.comboRecebimento(tipo,categoria).pipe(
         map((data: Tipo_Recebimento[]) => data.map(item => ({
             id: item.id,
             descricao: item.conta
@@ -71,7 +71,7 @@ export class PagamentoCreateComponent implements OnInit {
 
   onTipoChange(event: any): void {
     const selectedTipo = event.value;
-    this.findRecebimento(selectedTipo);
+    this.findRecebimento(selectedTipo,"RECEBIMENTO");
 }
 
   formatarMoeda(obj: number | string){

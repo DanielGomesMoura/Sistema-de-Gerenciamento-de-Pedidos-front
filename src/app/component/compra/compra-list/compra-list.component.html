@@ -36,7 +36,7 @@
       </ng-container>
   
       <ng-container matColumnDef="fornecedor">
-        <th mat-header-cell *matHeaderCellDef> Fornecedor </th>
+        <th mat-header-cell *matHeaderCellDef style="width: 20%;"> Fornecedor </th>
         <td mat-cell *matCellDef="let element"> {{element.fornecedor}} </td>
       </ng-container>
   
@@ -46,13 +46,13 @@
       </ng-container>
   
       <ng-container matColumnDef="conta">
-        <th mat-header-cell *matHeaderCellDef> CONTA </th>
-        <td mat-cell *matCellDef="let element"> {{element.conta}} </td>
+        <th mat-header-cell *matHeaderCellDef style="width: 10%;" class="text-center"> CONTA </th>
+        <td mat-cell *matCellDef="let element" class="text-center"> {{element.conta}} </td>
       </ng-container>
   
       <ng-container matColumnDef="forma_pagamento">
-        <th mat-header-cell *matHeaderCellDef> FORMA DE PAGAMENTO </th>
-        <td mat-cell *matCellDef="let element"> {{element.forma_pagamento}} </td>
+        <th mat-header-cell *matHeaderCellDef style="width: 10%;" class="text-center"> FORMA DE PAG </th>
+        <td mat-cell *matCellDef="let element" class="text-center"> {{element.forma_pagamento}} </td>
       </ng-container>
   
       <ng-container matColumnDef="valor_total">
@@ -61,7 +61,7 @@
       </ng-container>
   
       <ng-container matColumnDef="acoes">
-        <th mat-header-cell *matHeaderCellDef style="width: 10%;" class="text-center"> AÇÕES </th>
+        <th mat-header-cell *matHeaderCellDef style="width: 5%;" class="text-center"> AÇÕES </th>
         <td mat-cell *matCellDef="let element"> 
           <div class="teste">
             <button [routerLink]="['update',element.id]" class="primary" mat-icon-button color="primary">

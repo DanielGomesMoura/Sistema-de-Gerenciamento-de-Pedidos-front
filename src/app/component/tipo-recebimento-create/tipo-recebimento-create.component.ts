@@ -30,6 +30,7 @@ export class TipoRecebimentoCreateComponent implements OnInit {
       id: new FormControl(null),
       conta_fk:   new FormControl(null,Validators.required),
       tipo: new FormControl(null,Validators.required),
+      categoria: new FormControl(null,Validators.required)
     });
 
     // Verifica se está no modo de edição
@@ -52,7 +53,8 @@ export class TipoRecebimentoCreateComponent implements OnInit {
     this.service.findById(id).subscribe(resposta =>{
       this.tipo_recebimentoForm.patchValue({
        tipo: resposta.tipo,
-       conta_fk: resposta.conta_fk
+       conta_fk: resposta.conta_fk,
+       categoria: resposta.categoria
       });
     })
   }

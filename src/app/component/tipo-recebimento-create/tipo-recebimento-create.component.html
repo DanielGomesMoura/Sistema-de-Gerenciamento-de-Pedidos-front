@@ -20,6 +20,14 @@
                 <mat-option value="DINHEIRO">DINHEIRO</mat-option>
             </mat-select>
         </mat-form-field>
+
+        <mat-form-field  class="fullWidth">
+            <mat-label>Categoria</mat-label>
+            <mat-select formControlName="categoria">
+                <mat-option value="RECEBIMENTO">RECEBIMENTO</mat-option>
+                <mat-option value="PAGAMENTO">PAGAMENTO</mat-option>
+            </mat-select>
+        </mat-form-field>
         
 
         <button (click)="save()" [disabled]="!validaCampos()" class="fullWidth mat-elevation-z4" mat-raised-button
