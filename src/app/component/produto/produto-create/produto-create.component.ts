@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ProdutoService } from 'src/app/services/produto.service';
 import { CurrencyPipe } from '@angular/common';
+import { minValue } from 'src/app/util/validator';
 
 @Component({
   selector: 'app-produto-create',
@@ -27,9 +28,9 @@ export class ProdutoCreateComponent implements OnInit {
       id:          new FormControl(null),
       descricao:   new FormControl(null,Validators.minLength(3)),
       unidade:     new FormControl(null, Validators.required),
-      valor_custo: new FormControl(null, Validators.required),
-      valor_venda: new FormControl(null, Validators.required),
-      valor_promocional: new FormControl(null, Validators.required)
+      valor_custo: new FormControl(null, [Validators.required, minValue(0.01)]),
+      valor_venda: new FormControl(null, [Validators.required, minValue(0.01)]),
+      valor_promocional: new FormControl(null, [Validators.required, minValue(0.01)]),
     })
 
     const id = this.activatedRout.snapshot.paramMap.get('id');
@@ -57,13 +58,6 @@ export class ProdutoCreateComponent implements OnInit {
     return formattedValorCusto;
 }
 
-// Função para validar o formato da moeda
-validarMoeda(control: any): { [key: string]: boolean } | null {
-  const regex = /^\d{1,3}(\.\d{3})*,\d{2}$/;
-  const isValid = regex.test(control.value);
-  return isValid ? null : { moedaInvalida: true };
-}
-
 moeda(campo: string, obj: any): void {
   let value = obj.value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
   value = (value / 100).toFixed(2) + ''; // Adiciona duas casas decimais
@@ -73,10 +67,6 @@ moeda(campo: string, obj: any): void {
 
    // Atualiza o valor no campo do formulário
    this.produtoForm.get(campo)?.setValue(obj.value, { emitEvent: false });
-  // Valida o formato após a atualização
-  if (!this.validarMoeda(obj)) {
-    // Se precisar de uma ação adicional, você pode adicionar aqui
-  }
 }
 
 parseMoeda(valor: string): number {

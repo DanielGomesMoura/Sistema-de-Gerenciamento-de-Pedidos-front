@@ -4,7 +4,7 @@
 
         <mat-form-field color="accent">
           <mat-label>Data</mat-label>
-          <input matInput [matDatepicker]="picker1" readonly="true" [matDatepickerFilter]="dateFilter" formControlName="data_registro" >
+          <input matInput [matDatepicker]="picker1" readonly="true" formControlName="data_registro" >
           <mat-hint>DD/MM/YYYY</mat-hint>
           <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
@@ -17,7 +17,7 @@
             <mat-icon matSuffix>tab</mat-icon>
           </mat-form-field>
 
-          <mat-form-field  class="fullWidth">
+       <!--   <mat-form-field  class="fullWidth">
             <mat-label>Forma de Pagamento</mat-label>
             <mat-select formControlName="tipo_recebimento_fk">
               <mat-option *ngFor="let tipo_recebimento of tipo_recebimento" [value]="tipo_recebimento.id">
@@ -25,21 +25,21 @@
                 </mat-option>
               </mat-select>
           </mat-form-field>
-
+      -->
           <mat-form-field  class="fullWidth">
-            <mat-label>Produto</mat-label>
-            <mat-select (selectionChange)="onProdutoChange($event)" formControlName="produto">
-              <mat-option *ngFor="let produto of produtos" [value]="produto.id">
-                {{ produto.descricao }}
+            <mat-label>Insumos</mat-label>
+            <mat-select (selectionChange)="onProdutoChange($event)" formControlName="insumo">
+              <mat-option *ngFor="let insumo of insumo" [value]="insumo.id">
+                {{ insumo.descricao }}
               </mat-option>
             </mat-select>
           </mat-form-field>
           
-       <div formArrayName="itensPedido" >
-         <div *ngFor="let item of itensPedido.controls; let i = index" [formGroupName]="i">
-          <mat-form-field  id="produto">
+       <div formArrayName="itensCompra" >
+         <div *ngFor="let item of itensCompra.controls; let i = index" [formGroupName]="i">
+          <mat-form-field  id="insumo">
             <mat-label>item</mat-label>
-            <input matInput type="text" formControlName="descricao_produto" readonly="true" placeholder="produto">
+            <input matInput type="text" formControlName="descricao_insumo" readonly="true" placeholder="insumo">
           </mat-form-field>
 
          <mat-form-field  id="quantidade" class="direita">
@@ -49,7 +49,11 @@
 
             <mat-form-field  class="direita" id="valor_unitario">
               <mat-label>valor</mat-label>
-              <input type="text" name="valor_unitario" formControlName="valor_unitario" readonly="true" matInput>
+              <input type="text" name="valor_unitario" formControlName="valor_unitario" 
+              required
+              matInput
+              placeholder="ex..: 0,00"
+              (keyup)="moeda('valor_custo',$event.target)">
               <mat-icon matSuffix>attach_money</mat-icon>
             </mat-form-field>
             <button (click)="delete(i)" color="warn" mat-icon-button>
@@ -66,15 +70,15 @@
              matInput
              placeholder="ex..: 0,00">
             <mat-icon matSuffix>attach_money</mat-icon>
-            <mat-error *ngIf="pedidoForm.get('valor_total')?.invalid && (pedidoForm.get('valor_total')?.dirty || pedidoForm.get('valor_total')?.touched)">
-              <span *ngIf="pedidoForm.get('valor_total')?.errors?.required">Valor é obrigatório.</span>
-              <span *ngIf="pedidoForm.get('valor_total')?.errors?.min">O valor deve ser maior que zero.</span>
+            <mat-error *ngIf="compraForm.get('valor_total')?.invalid && (compraForm.get('valor_total')?.dirty || compraForm.get('valor_total')?.touched)">
+              <span *ngIf="compraForm.get('valor_total')?.errors?.required">Valor é obrigatório.</span>
+              <span *ngIf="compraForm.get('valor_total')?.errors?.min">O valor deve ser maior que zero.</span>
             </mat-error>
           </mat-form-field>
 
           <button (click)="save()" [disabled]="!validaCampos()" class="fullWidth mat-elevation-z4" mat-raised-button color="primary">
             {{ isEditMode ? 'Atualizar' : 'Cadastrar' }}</button>
-            <button routerLink="/pedidos" class="fullWidth mat-elevation-z4" mat-raised-button color="warn">
+            <button routerLink="/compras" class="fullWidth mat-elevation-z4" mat-raised-button color="warn">
                 Cancelar</button>
     </form>
     <p class="fullWidth">

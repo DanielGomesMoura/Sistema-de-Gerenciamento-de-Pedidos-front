@@ -20,6 +20,7 @@ import { MovimentoCaixaListComponent } from './component/movimento-caixa/movimen
 import { InsumoListComponent } from './component/insumo/insumo-list/insumo-list.component';
 import { InsumoCreateComponent } from './component/insumo/insumo-create/insumo-create.component';
 import { CompraListComponent } from './component/compra/compra-list/compra-list.component';
+import { CompraCreateComponent } from './component/compra/compra-create/compra-create.component';
 
 
 const routes: Routes = [
@@ -57,7 +58,9 @@ const routes: Routes = [
       {path: 'insumos/create',          component:  InsumoCreateComponent},
       {path: 'insumos/update/:id',      component:  InsumoCreateComponent},
 
-      {path: 'compras',             component:  CompraListComponent},
+      {path: 'compras',                 component:  CompraListComponent},
+      {path: 'compras/create',          component:  CompraCreateComponent},
+      {path: 'compras/update/:id',      component:  CompraCreateComponent},
     ]
   } 
 ];

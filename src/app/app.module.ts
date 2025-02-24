@@ -61,6 +61,7 @@ import { ConfirmDialogComponent } from './component/confirm-dialog/confirm-dialo
 import { InsumoListComponent } from './component/insumo/insumo-list/insumo-list.component';
 import { InsumoCreateComponent } from './component/insumo/insumo-create/insumo-create.component';
 import { CompraListComponent } from './component/compra/compra-list/compra-list.component';
+import { CompraCreateComponent } from './component/compra/compra-create/compra-create.component';
 
 registerLocaleData(localePt, 'pt-BR');
 
@@ -88,6 +89,7 @@ registerLocaleData(localePt, 'pt-BR');
     InsumoListComponent,
     InsumoCreateComponent,
     CompraListComponent,
+    CompraCreateComponent
   ],
   imports: [
     BrowserModule,

@@ -125,8 +125,7 @@ export class CompraListComponent implements OnInit{
       
      const formatarResposta = resposta.map((compra: Compra) =>{
         return{
-        ...compra,
-        valor_total: compra.valor_total
+        ...compra
         };
       });
       

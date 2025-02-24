@@ -51,10 +51,7 @@ export class ProdutoListComponent implements OnInit {
        const formattedData = resposta.map((produto: Produto) => {
       
         return {
-          ...produto,
-          valor_custo: produto.valor_custo,
-
-          valor_venda: produto.valor_venda
+          ...produto
         };
       });
       

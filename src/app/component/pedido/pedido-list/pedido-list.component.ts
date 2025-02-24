@@ -144,8 +144,7 @@ imprimirRelatorio(){
     
    const formatarResposta = resposta.map((pedido: Pedido) =>{
       return{
-      ...pedido,
-      valor_total: pedido.valor_total
+      ...pedido
       };
     });
     
