@@ -35,6 +35,7 @@ import { DatePipe } from '@angular/common';
 import {registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import {MatSortModule} from '@angular/material/sort';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 //Componentes do Projeto
 import { NavComponent } from './component/nav/nav.component';
@@ -114,6 +115,7 @@ registerLocaleData(localePt, 'pt-BR');
     MatListModule,
     MatCardModule,
     MatDialogModule,
+    MatAutocompleteModule,
     MatSortModule,
     ToastrModule.forRoot({
       timeOut: 4000,

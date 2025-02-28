@@ -1,5 +1,5 @@
 <div class="container mat-elevation-z8">
-    <form [formGroup]="pedidoForm" class="form">
+  <form [formGroup]="pedidoForm" class="form" (keydown.enter)="submitForm($event)">
         <h1 class="fullWidth">{{ isEditMode ? 'Atualizar Pedido' : 'Cadastrar Pedido' }}</h1>
 
         <mat-form-field color="accent">
@@ -10,14 +10,15 @@
         <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
 
-          <mat-form-field  class="fullWidth">
-            <mat-label>cliente</mat-label>
-            <mat-select formControlName="cliente_fk">
-              <mat-option *ngFor="let cliente of clientes" [value]="cliente.id">
-                {{ cliente.nome }}
-                </mat-option>
-              </mat-select>
-          </mat-form-field>
+        <mat-form-field class="fullWidth">
+          <mat-label>Cliente</mat-label>
+          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto"  (keydown.enter)="handleEnter($event)">
+          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="onSelect($event.option.value)" [displayWith]="displayFn">
+            <mat-option *ngFor="let cliente of filteredOptions | async" [value]="cliente">
+              {{ cliente.nome }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
 
           <mat-form-field  class="fullWidth">
             <mat-label>Produto</mat-label>

@@ -19,9 +19,9 @@ export class TipoRecebimentoService {
     return this.http.get<Tipo_Recebimento[]>(`${API_CONFIG.baseurl}/recebimentos`);
   }
 
-  comboRecebimento(tipo: string, categoria: string): Observable<Tipo_Recebimento[]>{
+  comboRecebimento(tipo: string, categoria: string): Observable<Tipo_Recebimento[]> {
     return this.http.get<Tipo_Recebimento[]>(`${API_CONFIG.baseurl}/recebimentos/combo/${tipo}/${categoria}`);
-  }
+}
 
   create(recebimento: Tipo_Recebimento): Observable<Tipo_Recebimento>{
     return this.http.post<Tipo_Recebimento>(`${API_CONFIG.baseurl}/recebimentos`,recebimento)

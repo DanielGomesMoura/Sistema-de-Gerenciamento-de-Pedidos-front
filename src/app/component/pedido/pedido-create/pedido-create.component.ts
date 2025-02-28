@@ -10,6 +10,9 @@ import { Cliente } from 'src/app/models/cliente';
 import { Produto } from 'src/app/models/produto';
 import { DatePipe } from '@angular/common';
 import { parse } from 'date-fns';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { __values } from 'tslib';
 
 @Component({
   selector: 'app-pedido-create',
@@ -23,7 +26,9 @@ export class PedidoCreateComponent implements OnInit {
   isEditMode: boolean = false;
   clientes: Cliente[] = [];
   produtos: Produto[] = [];
-  produtoMap: Map<number, Produto> = new Map(); //Mapeamento para acesso rápido  
+  produtoMap: Map<number, Produto> = new Map(); //Mapeamento para acesso rápido
+  myControl = new FormControl<string | Cliente>('');
+  filteredOptions: Observable<Cliente[]>;  
 
   constructor(private service: PedidoService,
               private clienteService: ClienteService,
@@ -35,6 +40,13 @@ export class PedidoCreateComponent implements OnInit {
               private datePipe: DatePipe) { }
 
   ngOnInit(): void {
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => (typeof value === 'string' ? value : this.displayFn(value))),
+      map(nome => (nome ? this._filter(nome) : this.clientes.slice()))
+      
+    );
+    
     const dataAtual = new Date(); // Não é necessário formatar aqui
     this.pedidoForm = new FormGroup({
       id:            new FormControl(null),
@@ -54,6 +66,21 @@ export class PedidoCreateComponent implements OnInit {
     this.findCliente();
     this.findProduto();
     this.onChanges();
+  }
+
+  private _filter(nome: string): Cliente[] {
+    const filterValue = nome.toLowerCase();
+    return this.clientes.filter(option => option.nome.toLowerCase().includes(filterValue));
+  }
+
+  displayFn(cliente: Cliente): string {
+    return cliente ? cliente.nome : '';
+  }
+
+  onSelect(cliente: any) {
+    console.log('Cliente selecionado:', cliente);
+    this.myControl.setValue(cliente);
+    this.pedidoForm.controls['cliente_fk'].setValue(cliente.id);
   }
 
   // Método para acessar o FormArray
@@ -263,4 +290,20 @@ delete(index:number): void{
        this.pedidoForm.get('produto').setValue(null);
    }
  }
+
+ submitForm(event: Event): void {
+  const keyboardEvent = event as KeyboardEvent; // Força a tipagem correta
+  
+  keyboardEvent.preventDefault(); // Impede o comportamento padrão do Enter
+  
+  if (this.pedidoForm.valid) {
+    this.save();
+  }
+}
+
+handleEnter(event: Event): void {
+  const keyboardEvent = event as KeyboardEvent; // Força a tipagem correta
+  event.stopPropagation(); // Impede o evento de se propagar para o formulário
+  event.preventDefault();  // Evita o envio do formulário
+}
 }
