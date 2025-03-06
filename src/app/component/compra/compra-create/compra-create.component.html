@@ -17,15 +17,25 @@
             <mat-icon matSuffix>tab</mat-icon>
           </mat-form-field>
 
-       <!--   <mat-form-field  class="fullWidth">
+          <mat-form-field  class="fullWidth">
             <mat-label>Forma de Pagamento</mat-label>
-            <mat-select formControlName="tipo_recebimento_fk">
-              <mat-option *ngFor="let tipo_recebimento of tipo_recebimento" [value]="tipo_recebimento.id">
-                {{ tipo_recebimento.nome }}
-                </mat-option>
-              </mat-select>
-          </mat-form-field>
-      -->
+            <mat-select (selectionChange)="onTipoChange($event)">
+                <mat-option value="PIX">PIX</mat-option>
+                <mat-option value="DEBITO">DÉBITO</mat-option>
+                <mat-option value="CREDITO">CRÉDITO</mat-option>
+                <mat-option value="DINHEIRO">DINHEIRO</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field  class="fullWidth">
+          <mat-label>Banco</mat-label>
+          <mat-select formControlName="tipo_recebimento_fk">
+              <mat-option *ngFor="let tipoRecebimento of tipoRecebimento" [value]="tipoRecebimento.id">
+                  {{ tipoRecebimento.descricao }}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+      
           <mat-form-field  class="fullWidth">
             <mat-label>Insumos</mat-label>
             <mat-select (selectionChange)="onProdutoChange($event)" formControlName="insumo">
@@ -53,7 +63,8 @@
               required
               matInput
               placeholder="ex..: 0,00"
-              (keyup)="moeda('valor_custo',$event.target)">
+              (keyup)="moeda('valor_custo',$event.target)"
+              (focus)="onFocus($event)">
               <mat-icon matSuffix>attach_money</mat-icon>
             </mat-form-field>
             <button (click)="delete(i)" color="warn" mat-icon-button>

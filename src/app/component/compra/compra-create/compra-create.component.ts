@@ -4,6 +4,8 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { parse } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
+import { map } from 'rxjs/operators';
+import { TipoRecebimentoSimplificado } from 'src/app/models/combo-recebimento';
 import { Insumos } from 'src/app/models/insumos';
 import { Tipo_Recebimento } from 'src/app/models/tipo-recebimento';
 import { CompraService } from 'src/app/services/compra.service';
@@ -21,7 +23,7 @@ export class CompraCreateComponent {
     compraForm: FormGroup;
     isDateDisabled: boolean = true; // Inicialmente desabilitado
     isEditMode: boolean = false;
-    tipoRecebimento: Tipo_Recebimento[] = [];
+    tipoRecebimento: TipoRecebimentoSimplificado[] = [];
     insumo: Insumos[] = [];
     insumoMap: Map<number, Insumos> = new Map(); //Mapeamento para acesso rápido  
   
@@ -39,7 +41,7 @@ export class CompraCreateComponent {
       this.compraForm = new FormGroup({
         id:            new FormControl(null),
         fornecedor:    new FormControl(null,Validators.required),
-        tipo_recebimento_fk:    new FormControl(null),
+        tipo_recebimento_fk:  new FormControl(null, Validators.required),
         valor_total:   new FormControl(null, [Validators.required,minValue(0.01)]),
         data_registro: new FormControl(dataAtual, Validators.required),//new FormControl(null, Validators.required), // Inicialmente desabilitado
         insumo:        new FormControl(null),
@@ -135,10 +137,10 @@ export class CompraCreateComponent {
       formValue.data_registro = this.datePipe.transform(formValue.data_registro, 'dd/MM/yyyy');
      // Converte os valores formatados de volta para double
      formValue.valor_total = this.parseMoeda(formValue.valor_total);
+     formValue.fornecedor = formValue.fornecedor.toUpperCase();
     // Se `itensPedido` estiver presente, garanta que seja um array válido
   if (formValue.itensCompra && Array.isArray(formValue.itensCompra)) {
    formValue.itensCompra = formValue.itensCompra.map((item: any) => {
-    console.log('entrou aqui')
      // Verifica e ajusta o valor unitário se ele tiver três zeros após o ponto
      const valorUnitarioStr = item.valor_unitario.toString();
      if (valorUnitarioStr.includes('.') && valorUnitarioStr.split('.')[1]?.length === 3) {
@@ -170,15 +172,22 @@ export class CompraCreateComponent {
      // Converte os valores formatados de volta para double
      formValue.valor_total = this.parseMoeda(formValue.valor_total);
      formValue.data_registro = this.datePipe.transform(formValue.data_registro, 'dd/MM/yyyy');
+     formValue.fornecedor = formValue.fornecedor.toUpperCase();
   
-       // Se `itensPedido` estiver presente, garanta que seja um array válido
-    if (formValue.itensCompra && Array.isArray(formValue.itensCompra)) {
-      formValue.itensCompra = formValue.itensCompra.map((item: any) => {
-        return {
-          ...item,
-        };
-      });
-    }
+     // Se `itensPedido` estiver presente, garanta que seja um array válido
+  if (formValue.itensCompra && Array.isArray(formValue.itensCompra)) {
+    formValue.itensCompra = formValue.itensCompra.map((item: any) => {
+      // Verifica e ajusta o valor unitário se ele tiver três zeros após o ponto
+      const valorUnitarioStr = item.valor_unitario.toString();
+      if (valorUnitarioStr.includes('.') && valorUnitarioStr.split('.')[1]?.length === 3) {
+        item.valor_unitario *= 10;
+      }
+      item.valor_unitario = item.valor_unitario.toString(); // Converte o valor unitário para número
+      return {
+        ...item,
+      };
+    });
+   }
   
       this.service.create(this.compraForm.value).subscribe(resposta => {
         this.toast.success('Compra cadastrada com sucesso');
@@ -238,8 +247,9 @@ export class CompraCreateComponent {
   }, { emitEvent: false });
   }
   
-  selecionarTexto(inputElement: HTMLInputElement): void {
-    inputElement.select();
+  onFocus(event: FocusEvent): void {
+    const value = event.target as HTMLInputElement;
+    value.select();
   }
 
   delete(index:number): void{
@@ -264,4 +274,20 @@ export class CompraCreateComponent {
      // Atualiza o valor no campo do formulário
      this.compraForm.get(campo)?.setValue(obj.value, { emitEvent: false });
   }
+
+  onTipoChange(event: any): void {
+    const selectedTipo = event.value;
+    this.findRecebimento(selectedTipo,"PAGAMENTO");
+}
+
+findRecebimento(tipo: string, categoria: string): void {
+    this.recebimentoService.comboRecebimento(tipo,categoria).pipe(
+        map((data: Tipo_Recebimento[]) => data.map(item => ({
+            id: item.id,
+            descricao: item.conta
+        })))
+    ).subscribe((mappedData: { id: number, descricao: string }[]) => {
+        this.tipoRecebimento = mappedData;
+    });
+}
 }

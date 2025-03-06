@@ -43,9 +43,20 @@
      padding-right: 1rem;
     }
 
-    .teste{
+    .button-container {
       display: flex;
-    }
+      flex-direction: row;
+      justify-content: center;
+  }
+
+  ::ng-deep .mat-sort-header-container {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    letter-spacing: normal;
+    outline: 0;
+    justify-content: center; /* Centraliza o conteúdo da coluna */
+  }
 
     /*css para expandir tabela*/
     

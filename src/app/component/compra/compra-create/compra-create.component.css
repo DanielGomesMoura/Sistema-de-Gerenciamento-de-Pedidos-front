@@ -49,3 +49,7 @@ p{
 mat-icon{
     opacity: .8;
 }
+
+#mat-nome {
+    text-transform: uppercase;
+  }
