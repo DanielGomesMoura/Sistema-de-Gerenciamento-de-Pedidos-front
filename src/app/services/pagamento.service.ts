@@ -23,6 +23,10 @@ export class PagamentoService {
     return this.http.post<Pagamento>(`${API_CONFIG.baseurl}/pagamentos`,pagamento)
   }
 
+  createPagamentoLote(pagamento: Pagamento): Observable<Pagamento>{
+    return this.http.post<Pagamento>(`${API_CONFIG.baseurl}/pagamentos/pagar-lote`,pagamento)
+  }
+
   update(pagamento: Pagamento): Observable<Pagamento>{
     return this.http.put<Pagamento>(`${API_CONFIG.baseurl}/pagamentos/${pagamento.id}`,pagamento);
   }

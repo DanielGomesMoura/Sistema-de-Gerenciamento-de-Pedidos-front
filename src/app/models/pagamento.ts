@@ -5,4 +5,6 @@ export interface Pagamento {
     tipo_pagamento: string;
     valor_pagamento: number|string;
     pedido_fk: number;
+    pedido_fk_lote: number[];
+    
 }

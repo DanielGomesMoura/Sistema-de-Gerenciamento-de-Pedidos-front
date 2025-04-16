@@ -9,7 +9,8 @@ import { TipoRecebimentoSimplificado } from 'src/app/models/combo-recebimento';
 import { PagamentoService } from 'src/app/services/pagamento.service';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { DatePipe } from '@angular/common';
-import { parse } from 'date-fns';
+import { parse,format } from 'date-fns';
+
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -43,23 +44,24 @@ export class PagamentoCreateComponent implements OnInit {
 
  console.log('IDs recebidos do localStorage:', pedidoIds);
 
- if (pedidoIds.length) {
+ if (pedidoIds.length > 0) {
    this.processarMultiplosPedidos(pedidoIds);  
   } else {
     // Remover IDs do localStorage para evitar problemas futuros
     localStorage.removeItem('pedidoIds');
     
-    const pedidoId = +this.activatedRout.snapshot.paramMap.get('id'); // Se for um único ID
-    this.processarPedidoUnico(pedidoId);
+    this.pedidoId = +this.activatedRout.snapshot.paramMap.get('id'); // Se for um único ID
+    this.processarPedidoUnico(this.pedidoId);
   }
 
     this.pagamentoForm = new FormGroup({
       id:           new FormControl(null),
-      pedido_fk:   new FormControl(null,Validators.required),
+      pedido_fk:   new FormControl(null),
       valor_pagamento: new FormControl(null, Validators.required),
       tipo_recebimento_fk:  new FormControl(null, Validators.required),
       valor_total: new FormControl(null),
-      data_registro_pagamento: new FormControl(null, Validators.required)
+      data_registro_pagamento: new FormControl(null, Validators.required),
+      pedido_fk_lote: new FormControl(null),
     });
 
   
@@ -78,15 +80,16 @@ export class PagamentoCreateComponent implements OnInit {
   }
 
   processarMultiplosPedidos(pedidoIds: number[]): void {
-    console.log("entrou aqui")
     this.pedidoService.findByIds(pedidoIds).subscribe(resposta => {
       this.pagamentoForm.patchValue({
         valor_total: this.formatarMoeda(resposta.valorTotal),
-        data_registro_pagamento: parse(resposta.data_registro, 'dd/MM/yyyy', new Date()),
+        data_registro_pagamento: new Date(),
+        pedido_fk_lote: pedidoIds
       });
     }, error => {
       console.error('Erro ao obter detalhes dos pedidos', error);
     });
+    localStorage.removeItem('pedidoIds');
   }
 
   findRecebimento(tipo: string, categoria: string): void {
@@ -139,10 +142,15 @@ validarMoeda(control: any): { [key: string]: boolean } | null {
 }
 
   save(): void {
-    if (this.isEditMode) {
-    } else {
-      this.create();
-    }
+    const formValue = this.pagamentoForm.value;
+
+   if (formValue.pedidos_fk != null) {
+    this.create(); // múltiplos pedidos (ou um só via lista)
+  } else if (formValue.pedido_fk_lote != null) {
+    this.createPagamentoLote(); // quando está usando o campo alternativo
+  } else {
+    console.warn('Nenhum pedido selecionado');
+  }
   }
 
   create(): void {
@@ -151,10 +159,31 @@ validarMoeda(control: any): { [key: string]: boolean } | null {
    // Converte os valores formatados de volta para double
    formValue.valor_pagamento = this.parseMoeda(formValue.valor_pagamento);
    formValue.valor_total = this.parseMoeda(formValue.valor_total);
-   formValue.pedido_fk = this.pedidoId;
    formValue.data_registro_pagamento = this.datePipe.transform(formValue.data_registro_pagamento, 'dd/MM/yyyy');
 
     this.service.create(formValue).subscribe(resposta => {
+      this.toast.success('Pagamento cadastrado com sucesso');
+      this.router.navigate(['pedidos']);
+    },ex => {
+      if(ex.error.errors){
+        ex.error.errors.forEach(element => {
+          this.toast.error(element.message);
+        });
+      }else{
+        this.toast.error(ex.error.message);
+      }
+    })
+  }
+
+  createPagamentoLote(): void {
+    const formValue = this.pagamentoForm.value;
+    
+   // Converte os valores formatados de volta para double
+   formValue.valor_pagamento = this.parseMoeda(formValue.valor_pagamento);
+   formValue.valor_total = this.parseMoeda(formValue.valor_total);
+   formValue.data_registro_pagamento = this.datePipe.transform(formValue.data_registro_pagamento, 'dd/MM/yyyy');
+
+    this.service.createPagamentoLote(formValue).subscribe(resposta => {
       this.toast.success('Pagamento cadastrado com sucesso');
       this.router.navigate(['pedidos']);
     },ex => {
