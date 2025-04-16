@@ -18,10 +18,13 @@ export class InsumoListComponent {
   
     insumos: Insumos = {
       id: '',
-      descricao: ''
+      descricao: '',
+      quantidadeAtual: null,
+      valorCustoMedio: null,
+      data_registro: null,
     }
   
-    displayedColumns: string[] = ['id', 'descricao', 'acoes'];
+    displayedColumns: string[] = ['id', 'descricao','quantidade','custo_medio','data_registro', 'acoes'];
     dataSource = new MatTableDataSource<Insumos>(this.ELEMENT_DATA);
   
     @ViewChild(MatPaginator) paginator: MatPaginator;

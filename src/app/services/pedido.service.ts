@@ -15,6 +15,12 @@ export class PedidoService {
     return this.http.get<Pedido>(`${API_CONFIG.baseurl}/pedidos/${id}`);
   }
 
+  // Método para buscar múltiplos pedidos por IDs
+  findByIds(ids: number[]): Observable<any> {
+    return this.http.post<Pedido>(`${API_CONFIG.baseurl}/pedidos/detalhes`, ids );
+  }
+  
+
   findAll(dataInicio: string, dataFinal: string, situacao: string): Observable<Pedido[]>{
     const params = new HttpParams()
       .set('dataInicio', dataInicio)

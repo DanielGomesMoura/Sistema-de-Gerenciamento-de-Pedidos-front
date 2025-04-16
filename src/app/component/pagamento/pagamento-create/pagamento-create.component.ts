@@ -37,6 +37,22 @@ export class PagamentoCreateComponent implements OnInit {
               private datePipe: DatePipe) { }
 
   ngOnInit(): void {
+ // Recuperar IDs do localStorage
+ const pedidoIdsString = localStorage.getItem('pedidoIds');
+ const pedidoIds = pedidoIdsString ? JSON.parse(pedidoIdsString) : [];
+
+ console.log('IDs recebidos do localStorage:', pedidoIds);
+
+ if (pedidoIds.length) {
+   this.processarMultiplosPedidos(pedidoIds);  
+  } else {
+    // Remover IDs do localStorage para evitar problemas futuros
+    localStorage.removeItem('pedidoIds');
+    
+    const pedidoId = +this.activatedRout.snapshot.paramMap.get('id'); // Se for um único ID
+    this.processarPedidoUnico(pedidoId);
+  }
+
     this.pagamentoForm = new FormGroup({
       id:           new FormControl(null),
       pedido_fk:   new FormControl(null,Validators.required),
@@ -45,16 +61,31 @@ export class PagamentoCreateComponent implements OnInit {
       valor_total: new FormControl(null),
       data_registro_pagamento: new FormControl(null, Validators.required)
     });
-   this.pedidoId = +this.activatedRout.snapshot.paramMap.get('id');
-    // Obtendo os detalhes do pedido usando o ID
-    this.pedidoService.findById(this.pedidoId).subscribe(resposta => {      
+
+  
+  }
+
+  processarPedidoUnico(pedidoId: number): void {
+    this.pedidoService.findById(pedidoId).subscribe(resposta => {
       this.pagamentoForm.patchValue({
         valor_total: this.formatarMoeda(resposta.valor_total),
-        data_registro_pagamento: parse(resposta.data_registro, 'dd/MM/yyyy', new Date()), 
-        pedido_fk: this.pedidoId
+        data_registro_pagamento: parse(resposta.data_registro, 'dd/MM/yyyy', new Date()),
+        pedido_fk: pedidoId
       });
     }, error => {
       console.error('Erro ao obter detalhes do pedido', error);
+    });
+  }
+
+  processarMultiplosPedidos(pedidoIds: number[]): void {
+    console.log("entrou aqui")
+    this.pedidoService.findByIds(pedidoIds).subscribe(resposta => {
+      this.pagamentoForm.patchValue({
+        valor_total: this.formatarMoeda(resposta.valorTotal),
+        data_registro_pagamento: parse(resposta.data_registro, 'dd/MM/yyyy', new Date()),
+      });
+    }, error => {
+      console.error('Erro ao obter detalhes dos pedidos', error);
     });
   }
 

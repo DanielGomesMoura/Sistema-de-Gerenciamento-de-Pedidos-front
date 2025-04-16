@@ -17,7 +17,7 @@ export class InsumoService {
   }
 
   findAll(): Observable<Insumos[]>{
-    return this.http.get<Insumos[]>(`${API_CONFIG.baseurl}/insumos`);
+    return this.http.get<Insumos[]>(`${API_CONFIG.baseurl}/estoque`);
   }
 
   create(insumos: Insumos): Observable<Insumos>{

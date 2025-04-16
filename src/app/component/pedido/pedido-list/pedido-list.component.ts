@@ -10,6 +10,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import { DatePipe } from '@angular/common';
 import {MatSort, Sort} from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
+import { SelectionModel } from '@angular/cdk/collections';
 
 @Component({
   selector: 'app-pedido-list',
@@ -43,9 +44,10 @@ export class PedidoListComponent implements OnInit {
   }
 
   dataSource = new MatTableDataSource<Pedido>(this.ELEMENT_DATA);
-  displayedColumns: string[] = ['id', 'cliente', 'data_registro', 'valor_total', 'status', 'acoes'];
+  displayedColumns: string[] = ['select', 'id', 'cliente', 'data_registro', 'valor_total', 'status', 'acoes'];
   columnsToDisplayWithExpand = [...this.displayedColumns, 'expand'];
   expandedElement: Pedido | null;
+  selection = new SelectionModel<any>(true, []);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -196,4 +198,39 @@ imprimirRelatorio(){
       return total + itensTotal;
     }, 0);
   }
+
+   /** Whether the number of selected elements matches the total number of rows. */
+   isAllSelected() {
+    const numSelected = this.selection.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selection.clear();
+      return;
+    }
+
+    this.selection.select(...this.dataSource.data);
+  }
+
+  /** The label for the checkbox on the passed row */
+  checkboxLabel(row?: any): string {
+    if (!row) {
+      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+    }
+    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
+  }
+
+  redirectToPagamentosEmLote() {
+    const pedidosSelecionados = this.selection.selected.map(pedido => pedido.id);
+    console.log('Pedidos Selecionados:', pedidosSelecionados);
+   // Navegar para a rota sem passar dados via state ou URL params
+   this.router.navigate(['/pagamentos/pagamentos-lotes']);
+  
+   // Enviar os IDs ao backend logo que a tela de pagamentos-lotes é carregada
+   localStorage.setItem('pedidoIds', JSON.stringify(pedidosSelecionados)); // Armazenar localmente
+  }  
 }

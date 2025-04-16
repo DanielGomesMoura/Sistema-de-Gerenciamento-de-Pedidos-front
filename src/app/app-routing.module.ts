@@ -43,6 +43,8 @@ const routes: Routes = [
       {path: 'pedidos/update/:id', component:  PedidoCreateComponent},
 
       {path: 'pagamentos/:id',     component:  PagamentoCreateComponent},
+      {path: 'pagamentos/pagamentos-lotes',     component:  PagamentoCreateComponent},
+      
 
       {path: 'contas',             component:  ContaListComponent},
       {path: 'contas/create',      component:  ContaCreateComponent},
