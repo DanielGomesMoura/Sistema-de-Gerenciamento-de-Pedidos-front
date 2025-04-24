@@ -9,7 +9,7 @@ import { TipoRecebimentoSimplificado } from 'src/app/models/combo-recebimento';
 import { PagamentoService } from 'src/app/services/pagamento.service';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { DatePipe } from '@angular/common';
-import { parse,format } from 'date-fns';
+import { parse } from 'date-fns';
 
 import { map } from 'rxjs/operators';
 
@@ -142,11 +142,10 @@ validarMoeda(control: any): { [key: string]: boolean } | null {
 }
 
   save(): void {
-    const formValue = this.pagamentoForm.value;
-
-   if (formValue.pedidos_fk != null) {
+  const formValue = this.pagamentoForm.value;
+   if (formValue.pedido_fk) {
     this.create(); // múltiplos pedidos (ou um só via lista)
-  } else if (formValue.pedido_fk_lote != null) {
+  } else if (formValue.pedido_fk_lote) {
     this.createPagamentoLote(); // quando está usando o campo alternativo
   } else {
     console.warn('Nenhum pedido selecionado');
@@ -155,7 +154,6 @@ validarMoeda(control: any): { [key: string]: boolean } | null {
 
   create(): void {
     const formValue = this.pagamentoForm.value;
-    
    // Converte os valores formatados de volta para double
    formValue.valor_pagamento = this.parseMoeda(formValue.valor_pagamento);
    formValue.valor_total = this.parseMoeda(formValue.valor_total);
@@ -183,10 +181,12 @@ validarMoeda(control: any): { [key: string]: boolean } | null {
    formValue.valor_total = this.parseMoeda(formValue.valor_total);
    formValue.data_registro_pagamento = this.datePipe.transform(formValue.data_registro_pagamento, 'dd/MM/yyyy');
 
-    this.service.createPagamentoLote(formValue).subscribe(resposta => {
-      this.toast.success('Pagamento cadastrado com sucesso');
+    this.service.createPagamentoLote(formValue).subscribe((resposta : string) => {
+      console.log('Mensagem recebida do backend:', resposta);
+      this.toast.success(resposta.toString());
       this.router.navigate(['pedidos']);
     },ex => {
+      console.error('Erro recebido no frontend:', ex)
       if(ex.error.errors){
         ex.error.errors.forEach(element => {
           this.toast.error(element.message);
