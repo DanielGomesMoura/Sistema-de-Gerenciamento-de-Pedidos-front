@@ -21,6 +21,7 @@ import { InsumoListComponent } from './component/insumo/insumo-list/insumo-list.
 import { InsumoCreateComponent } from './component/insumo/insumo-create/insumo-create.component';
 import { CompraListComponent } from './component/compra/compra-list/compra-list.component';
 import { CompraCreateComponent } from './component/compra/compra-create/compra-create.component';
+import { EstoqueListComponent } from './component/estoque/estoque-list/estoque-list.component';
 
 
 const routes: Routes = [
@@ -63,6 +64,8 @@ const routes: Routes = [
       {path: 'compras',                 component:  CompraListComponent},
       {path: 'compras/create',          component:  CompraCreateComponent},
       {path: 'compras/update/:id',      component:  CompraCreateComponent},
+
+      {path: 'estoque',                 component:  EstoqueListComponent},
     ]
   } 
 ];
