@@ -19,9 +19,9 @@ export class InsumoListComponent {
     insumos: Insumos = {
       id: '',
       descricao: '',
-      quantidadeAtual: null,
-      valorCustoMedio: null,
-      data_registro: null,
+      estoque: null,
+      custo_medio: null,
+      data_ultima_compra: null,
     }
   
     displayedColumns: string[] = ['id', 'descricao','quantidade','custo_medio','data_registro', 'acoes'];
