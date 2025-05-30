@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource as MatTableDataSource } from '@angular/material/table';
-import { ToastrService } from 'ngx-toastr';
 import { Pedido } from 'src/app/models/pedido';
 import { PedidoService } from 'src/app/services/pedido.service';
 import { Router } from '@angular/router';
@@ -32,7 +30,6 @@ export class PedidoListComponent implements OnInit {
  dataFinal  = null;
  situacao = "TODOS";
  filterValue =  '';
- relatorio = "relatorio_pedidos_abertos_por_clientes";
 
   pedido: Pedido = {
     id: '',
@@ -58,8 +55,6 @@ export class PedidoListComponent implements OnInit {
   }
 
   constructor(private service: PedidoService,
-              private toast: ToastrService,
-              private dialog: MatDialog,
               private router: Router,
               private datePipe: DatePipe,
               private _liveAnnouncer: LiveAnnouncer
@@ -126,16 +121,17 @@ export class PedidoListComponent implements OnInit {
   this.router.navigate(['/pagamentos', elementId]);
 }
 
-imprimirRelatorio(){
+//Metodo para baixar automaticamente o relatorio sem previsualização
+/*imprimirRelatorio1(){
   this.service.imprimeRelatorio(this.relatorio).subscribe(response => {
     const url = window.URL.createObjectURL(response);
     const a = document.createElement('a');
     a.href = url;
     a.download = 'relatorio.pdf';
     a.click();
-    window.URL.revokeObjectURL(url);
+    window.URL.revokeObjectUR L(url);
   });
-}
+}*/
 
   findAll(dataInicio: Date, dataFinal: Date, situacao: string){
     this.saveFilters();
@@ -202,7 +198,7 @@ imprimirRelatorio(){
    /** Whether the number of selected elements matches the total number of rows. */
    isAllSelected() {
     const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
+    const numRows = this.dataSource.filteredData.length;
     return numSelected === numRows;
   }
 
@@ -213,7 +209,7 @@ imprimirRelatorio(){
       return;
     }
 
-    this.selection.select(...this.dataSource.data);
+    this.selection.select(...this.dataSource.filteredData);
   }
 
   /** The label for the checkbox on the passed row */

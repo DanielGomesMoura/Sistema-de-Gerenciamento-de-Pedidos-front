@@ -3,13 +3,29 @@
 }
 
 .sidenav{
-    width: 13rem;
+    width: 18rem;
     background: linear-gradient(180deg, rgba(83,85,212,1) 0%, rgba(82,69,162,1) 22%, rgba(59,195,222,1) 100%);
 }
 
 .sidenav mat-icon {
     margin-right: .6rem;
     color: white;
+}
+
+::ng-deep .submenu-panel.mat-expansion-panel {
+  background: transparent;
+}
+
+.mat-expansion-panel:not([class*=mat-elevation-z]) {
+  box-shadow: none !important;
+}
+
+.arrow {
+  transition: transform 0.3s ease;
+}
+
+.mat-expanded .arrow {
+  transform: rotate(180deg);
 }
 
 .img{

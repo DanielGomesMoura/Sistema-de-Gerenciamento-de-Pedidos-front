@@ -40,8 +40,4 @@ export class PedidoService {
   delete(id: any): Observable<Pedido>{
     return this.http.delete<Pedido>(`${API_CONFIG.baseurl}/pedidos/${id}`);
   }
-
-  imprimeRelatorio(relatorio: any) {
-    return this.http.get(`${API_CONFIG.baseurl}/pedidos/view/${relatorio}`,{ responseType: 'blob' });
-  }
 }

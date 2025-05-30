@@ -41,14 +41,39 @@
             <mat-icon matListItemIcon>receipt</mat-icon>
             <span class="cor">Regularização de Estoque</span>
          </a>
-         <a mat-list-item routerLink="rank">
+     <!--    <a mat-list-item routerLink="rank">
             <mat-icon matListItemIcon>list_alt</mat-icon>
             <span class="cor">Ranking</span>
          </a>
-         <a mat-list-item routerLink="relatorio">
+      -->
+          <!-- Item "Relatório" com submenu -->
+  <mat-expansion-panel class="submenu-panel" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon>list_alt</mat-icon>
+        <span class="cor">Relatório</span>
+      </mat-panel-title>
+       <mat-panel-description>
+      <mat-icon class="arrow">expand_more</mat-icon>
+    </mat-panel-description>
+    </mat-expansion-panel-header>
+
+   <mat-nav-list>
+  <a mat-list-item (click)="imprimirRelatorio('relatorio_pedidos_abertos_por_clientes')">
+    <mat-icon>bar_chart</mat-icon>
+    <span class="cor">Relatório de Vendas</span>
+  </a>
+  <a mat-list-item (click)="imprimirRelatorio('relatorio_venda_diaria')">
+    <mat-icon>inventory</mat-icon>
+    <span class="cor">Relatório de Estoque</span>
+  </a>
+</mat-nav-list>
+  </mat-expansion-panel>
+       <!--  <a mat-list-item routerLink="relatorio">
             <mat-icon matListItemIcon>list_alt</mat-icon>
             <span class="cor">Relatório</span>
          </a>
+       -->
          <a mat-list-item (click)="logout()">
             <mat-icon>logout</mat-icon>
             <span class="cor">Logout</span>
